@@ -73,8 +73,7 @@ class _SettingFormState extends State<SettingForm> {
                           Colors.brown[_currentStrengths ?? userData.strength],
                       inactiveColor:
                           Colors.brown[_currentStrengths ?? userData.strength],
-                      value:
-                          (_currentStrengths ?? userData.strength).toDouble(),
+                      value: (_currentStrengths ?? 100).toDouble(),
                       onChanged: (val) {
                         setState(() {
                           _currentStrengths = val.round();
