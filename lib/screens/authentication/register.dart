@@ -1,18 +1,18 @@
-import 'package:firebase_app/services/auth.dart';
 import 'package:firebase_app/shared/constants.dart';
-import 'package:firebase_app/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_app/services/auth.dart';
+import 'package:firebase_app/shared/loading.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleView;
 
-  SignIn(this.toggleView);
+  Register(this.toggleView);
 
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthServices _auth = AuthServices();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -31,14 +31,14 @@ class _SignInState extends State<SignIn> {
             appBar: AppBar(
               backgroundColor: Colors.brown[400],
               elevation: 0.0,
-              title: Text('Sign In anon'),
+              title: Text('Sign UP page'),
               actions: <Widget>[
                 FlatButton.icon(
                     onPressed: () {
                       widget.toggleView();
                     },
                     icon: Icon(Icons.person),
-                    label: Text('Register'))
+                    label: Text('Login'))
               ],
             ),
             body: Container(
@@ -83,7 +83,7 @@ class _SignInState extends State<SignIn> {
                       RaisedButton(
                           color: Colors.pink[400],
                           child: Text(
-                            'sign in',
+                            'Register',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () async {
@@ -91,12 +91,13 @@ class _SignInState extends State<SignIn> {
                               setState(() {
                                 loading = true;
                               });
-                              dynamic result = await _auth
-                                  .signInWithEmailAndPassword(email, password);
+                              // dynamic as it may be user or null
+                              dynamic result =
+                                  await _auth.registerWithEmailAndPassword(
+                                      email, password);
                               if (result == null) {
                                 setState(() {
-                                  error =
-                                      'could not sign in with this credentials';
+                                  error = 'please Enter valid email';
                                   loading = false;
                                 });
                               }
@@ -115,17 +116,3 @@ class _SignInState extends State<SignIn> {
           );
   }
 }
-/*
-* RaisedButton(
-            child: Text('Sign In'),
-            onPressed: () async {
-              //dynamic because it may be null or FirebaseUser
-              dynamic result = await _auth.signInAnonymous();
-              if (result == null) {
-                print('error signed in');
-              } else {
-                print('signed in');
-                print(result.uid);
-              }
-            })
-* */
